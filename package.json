@@ -64,5 +64,13 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "pre-commit": [
+    "prettier",
+    "lint"
+  ],
+  "pre-push": [
+    "prettier",
+    "lint"
+  ]
 }
