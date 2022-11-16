@@ -1,11 +1,9 @@
 import {
   Controller,
-  Delete,
   Get,
   HttpCode,
   HttpStatus,
   Param,
-  Post, RequestMapping,
 } from '@nestjs/common';
 import { FilmService } from './film.service';
 
@@ -23,17 +21,5 @@ export class FilmController {
   @HttpCode(HttpStatus.OK)
   getById(@Param() id: number) {
     return this.filmService.getById(id);
-  }
-
-  @Post('')
-  @HttpCode(HttpStatus.CREATED)
-  update() {
-    return this.filmService.update();
-  }
-
-  @Delete('')
-  @HttpCode(HttpStatus.OK)
-  delete(@Param() id: number) {
-    return this.filmService.delete(id);
   }
 }

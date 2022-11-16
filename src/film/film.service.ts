@@ -1,26 +1,52 @@
 import { Injectable } from '@nestjs/common';
+import axios from 'axios';
 import { Film } from './film.entity';
 
 @Injectable()
 export class FilmService {
-  public mockedFilm: Film = new Film(
-    1,
-    1,
-    'Star Wars',
-    'Best Film EVER',
-    100,
-    null,
-  );
-
   async getAll() {
-    return Array.of(this.mockedFilm);
+    return this.get();
   }
 
   async getById(id: number) {
-    return this.mockedFilm;
+    return this.get(id);
   }
 
-  async update() {}
+  async get(id? :number) {
+    const axios = require('axios');
 
-  async delete(id: number) {}
+    if(!id) {
+      const options = {
+        method: 'GET',
+        url: 'https://imdb8.p.rapidapi.com/auto-complete',
+        params: {q: 'star wars'},
+        headers: {
+          'X-RapidAPI-Key': '7f260cf98cmshbcea1f0cec0824fp1b8e5bjsnc8ba46d3963f',
+          'X-RapidAPI-Host': 'imdb8.p.rapidapi.com'
+        }
+      };
+
+      axios.request(options).then(function (response) {
+        console.log(response.data);
+      }).catch(function (error) {
+        console.error(error);
+      });
+    } else {
+      const options = {
+        method: 'GET',
+        url: 'https://imdb8.p.rapidapi.com/auto-complete',
+        params: {id: id},
+        headers: {
+          'X-RapidAPI-Key': '7f260cf98cmshbcea1f0cec0824fp1b8e5bjsnc8ba46d3963f',
+          'X-RapidAPI-Host': 'imdb8.p.rapidapi.com'
+        }
+      };
+
+      axios.request(options).then(function (response) {
+        console.log(response.data);
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+  }
 }

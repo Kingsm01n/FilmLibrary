@@ -4,7 +4,7 @@ export class Film {
   name: string;
   description: string;
   rating: number;
-  film: File;
+  actors: string;
 
   constructor(
     id: number,
@@ -12,13 +12,13 @@ export class Film {
     name: string,
     description: string,
     rating: number,
-    film: File,
+    film: string,
   ) {
     this.id = id;
     this.externalId = externalId;
     this.name = name;
     this.description = description;
     this.rating = rating;
-    this.film = film;
+    this.actors = film;
   }
 }
