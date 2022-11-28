@@ -1,24 +1,50 @@
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+
+@Entity()
 export class Film {
+
+  @PrimaryGeneratedColumn({
+    type: 'bigint',
+    name: 'user_id',
+  })
   id: number;
-  externalId: number;
+
+  @Column()
+  externalId: string;
+
+  @Column()
   name: string;
-  description: string;
+
+  @Column()
   rating: number;
-  actors: string;
+
+  @Column()
+  scenarists: string;
+
+  @Column()
+  year: number;
+
+  @Column()
+  imageSrc: string;
 
   constructor(
     id: number,
-    externalId: number,
+    externalId: string,
     name: string,
-    description: string,
     rating: number,
-    film: string,
+    scenarists: string,
+    year: number,
+  imageSrc: string
   ) {
     this.id = id;
     this.externalId = externalId;
     this.name = name;
-    this.description = description;
     this.rating = rating;
-    this.actors = film;
+    this.scenarists = scenarists;
+    this.year = year;
+    this.imageSrc = imageSrc;
   }
 }
+
+export const FilmSchema = SchemaFactory.createForClass(Film);

@@ -3,7 +3,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Param,
+  Param, Post,
 } from '@nestjs/common';
 import { FilmService } from './film.service';
 
@@ -17,9 +17,15 @@ export class FilmController {
     return this.filmService.getAll();
   }
 
-  @Get('')
+  @Get(':id')
   @HttpCode(HttpStatus.OK)
   getById(@Param() id: number) {
     return this.filmService.getById(id);
+  }
+
+  @Post("update/:name")
+  @HttpCode(HttpStatus.OK)
+  updateFilms(@Param() name: string) {
+    return this.filmService.update(name);
   }
 }
