@@ -3,9 +3,10 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Param, Post,
+  Param, Post, UseGuards,
 } from '@nestjs/common';
 import { FilmService } from './film.service';
+import {AdminGuard, JwtAuthGuard} from "../auth/guards";
 
 @Controller('film')
 export class FilmController {
@@ -13,18 +14,21 @@ export class FilmController {
 
   @Get('')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
   getAll() {
     return this.filmService.getAll();
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
   getById(@Param() id: number) {
     return this.filmService.getById(id);
   }
 
   @Post("update/:name")
   @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   updateFilms(@Param() name: string) {
     return this.filmService.update(name);
   }

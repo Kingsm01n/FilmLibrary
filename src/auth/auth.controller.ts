@@ -6,12 +6,12 @@ import { User } from '../user/user.entity';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('/login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  @Post('login')
+  async login(@Body() user: User) {
+    return this.authService.login(user);
   }
 
-  @Post('/signup')
+  @Post('signup')
   signup(@Body() user: User) {
     return this.authService.signup(user);
   }

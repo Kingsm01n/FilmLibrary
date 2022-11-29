@@ -17,4 +17,7 @@ export class User {
 
   @Column({nullable: true})
   password: string;
+
+  @Column({nullable: false})
+  role: 'user' | 'admin';
 }
