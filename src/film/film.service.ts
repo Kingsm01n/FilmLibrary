@@ -1,21 +1,28 @@
-import {Injectable} from '@nestjs/common';
+import {Inject, Injectable} from '@nestjs/common';
 import {Film} from './film.entity';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
+import {WINSTON_MODULE_PROVIDER} from "nest-winston";
+import {Logger} from "winston";
 
 
 @Injectable()
 export class FilmService {
 
-    constructor(@InjectRepository(Film) private readonly filmRepository: Repository<Film>) {
+    constructor(@InjectRepository(Film) private readonly filmRepository: Repository<Film>, @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger) {
     }
 
     async getAll() {
         return this.filmRepository.find();
     }
 
-    async getById(id: number) {
-        return this.filmRepository.findOneById(id);
+    async getById(id: any) {
+        try {
+            return this.filmRepository.findOneBy({externalId: id.id});
+        } catch (e) {
+            this.logger.error(`film-service getById ${JSON.stringify(e)}`);
+            throw new Error(e);
+        }
     }
 
     get(name: any) {

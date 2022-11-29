@@ -6,12 +6,15 @@ import {FilmModule} from "./film/film.module";
 import {TypeOrmModule} from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import entities from "./index";
+import {WinstonModule} from "nest-winston";
+import {winstonAsyncConfig} from "./config/winston-async.config";
 
 @Module({
     imports: [
         AuthModule,
         FilmModule,
         AuthModule,
+        WinstonModule.forRootAsync(winstonAsyncConfig),
         ConfigModule.forRoot({ isGlobal: true}),
         TypeOrmModule.forRootAsync({
             imports: [ConfigModule],
