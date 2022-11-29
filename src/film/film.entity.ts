@@ -6,38 +6,33 @@ export class Film {
 
   @PrimaryGeneratedColumn({
     type: 'bigint',
-    name: 'user_id',
+    name: 'film_id',
   })
-  id: number;
+  externalId: number;
 
-  @Column()
-  externalId: string;
-
-  @Column()
+  @Column({nullable: true})
   name: string;
 
-  @Column()
+  @Column({nullable: true})
   rating: number;
 
-  @Column()
+  @Column({nullable: true})
   scenarists: string;
 
-  @Column()
+  @Column({nullable: true})
   year: number;
 
-  @Column()
+  @Column({nullable: true})
   imageSrc: string;
 
   constructor(
-    id: number,
-    externalId: string,
+    externalId: number,
     name: string,
     rating: number,
     scenarists: string,
     year: number,
   imageSrc: string
   ) {
-    this.id = id;
     this.externalId = externalId;
     this.name = name;
     this.rating = rating;

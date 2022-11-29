@@ -1,16 +1,24 @@
 import {Injectable} from '@nestjs/common';
 import {Film} from './film.entity';
+import {InjectRepository} from "@nestjs/typeorm";
+import {Repository} from "typeorm";
 
 
 @Injectable()
 export class FilmService {
+
+    constructor(@InjectRepository(Film) private readonly filmRepository: Repository<Film>) {
+    }
+
     async getAll() {
+        return this.filmRepository.find();
     }
 
     async getById(id: number) {
+        return this.filmRepository.findOneById(id);
     }
 
-    async get(name: any) {
+    get(name: any) {
         const axios = require('axios');
 
         const options = {
@@ -23,16 +31,19 @@ export class FilmService {
             }
         };
 
-        axios.request(options).then(function (response) {
-            console.log(response)
+        return axios.request(options).catch(function (error) {
+            console.error(error);
+        });
+    }
+
+    update(name: string) {
+        const films = this.get(name).then(response => {
             var data = response.data;
-            console.log(response.data.d)
             var films = new Array();
 
             data.d.forEach(data => {
                 films.push(new Film(
-                    null,
-                    data.id,
+                    data.id.replace(new RegExp('([a-zA-Z/-]*)'), '') || Math.floor(Math.random() * 100_000),
                     data.l,
                     data.rank,
                     data.s,
@@ -41,13 +52,12 @@ export class FilmService {
                     )
                 );
             })
-            return films;
-        }).catch(function (error) {
-            console.error(error);
-        });
-    }
 
-    update(name: string) {
-        var films = this.get(name);
+            return films;
+        }).then(films => {
+            console.log(films);
+
+            return this.filmRepository.save(films);
+        });
     }
 }
